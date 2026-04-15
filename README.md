@@ -165,3 +165,13 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [Browser Use](https://github.com/browser-use/browser-use) - The underlying browser automation library
 - [FastAPI](https://fastapi.tiangolo.com/) - The web framework used
 - [n8n](https://n8n.io/) - The workflow automation platform this bridge is designed for # browser-n8n-local
+
+## Star History
+
+<a href="https://www.star-history.com/?repos=henry0hai%2Fbrowser-n8n-local&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=henry0hai/browser-n8n-local&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=henry0hai/browser-n8n-local&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=henry0hai/browser-n8n-local&type=date&legend=top-left" />
+ </picture>
+</a>
