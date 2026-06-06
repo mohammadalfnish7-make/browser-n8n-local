@@ -1,10 +1,9 @@
-# 1. Pin to stable Debian Bookworm to avoid package name drift
-FROM python:3.11-slim-bookworm
+FROM docker.io/library/python:3.11-slim-bookworm
 
 WORKDIR /app
 
-# 2. Added 'curl' so the healthcheck actually works
-RUN apt-get update && apt-get install -y \
+# Added --no-install-recommends to block systemd from crashing the build
+RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     curl \
     gnupg \
@@ -45,13 +44,11 @@ EXPOSE 8000
 
 # Create a non-root user to run the app
 RUN adduser --disabled-password --gecos "" appuser
-
-# 3. CRITICAL: Give appuser permissions to BOTH /app and the browser path
 RUN chown -R appuser:appuser /app /ms-playwright
 
 USER appuser
 
-# Healthcheck will now return 200 OK successfully
+# Set healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD curl -f http://localhost:8000/api/v1/ping || exit 1
 
 # Command to run the application
