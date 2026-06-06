@@ -1,15 +1,16 @@
-FROM python:3.11-slim
+# 1. Pin to stable Debian Bookworm to avoid package name drift
+FROM python:3.11-slim-bookworm
 
 WORKDIR /app
 
-# Install essential packages and dependencies needed for Playwright
+# 2. Added 'curl' so the healthcheck actually works
 RUN apt-get update && apt-get install -y \
     wget \
+    curl \
     gnupg \
     ca-certificates \
     procps \
     unzip \
-    # Additional dependencies that Playwright might need
     libnss3 \
     libnspr4 \
     libatk1.0-0 \
@@ -44,13 +45,14 @@ EXPOSE 8000
 
 # Create a non-root user to run the app
 RUN adduser --disabled-password --gecos "" appuser
-# Give appuser permissions to the necessary directories
-RUN chown -R appuser:appuser /app
+
+# 3. CRITICAL: Give appuser permissions to BOTH /app and the browser path
+RUN chown -R appuser:appuser /app /ms-playwright
 
 USER appuser
 
-# Set healthcheck to ensure the service is running properly
+# Healthcheck will now return 200 OK successfully
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD curl -f http://localhost:8000/api/v1/ping || exit 1
 
 # Command to run the application
-CMD ["python", "app.py"] 
+CMD ["python", "app.py"]
